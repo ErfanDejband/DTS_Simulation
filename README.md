@@ -4,7 +4,7 @@
 
 <h2>Installation</h2>
 
-<p>You can install the DTS Simulation Library using pip:</p>
+<p>You can install the DTS Simulation Library using pip or download the files:</p>
 
 <pre><code>pip install DTS-simulation
 </code></pre>
@@ -23,24 +23,7 @@
 
 <p>This will simulate DTS data with a heating event from 10 to 15 meters, with a heating temperature of 79°C and an environmental temperature of 21°C. It returns the distance array, actual temperature array, and DTS signal array.</p>
 
-<p>To compare simulated data with experimental data, you can plot them together. Here's an example using matplotlib:</p>
-
-<pre><code>import matplotlib.pyplot as plt
-
-# Plot experimental data
-plt.plot(experimental_distance, experimental_temperature, label='Experimental Data')
-
-# Plot simulated data
-plt.plot(distance, actual_T, label='Actual Temperature')
-plt.plot(distance, DDTS, label='DDTS')
-
-plt.xlabel('Distance')
-plt.ylabel('Temperature')
-plt.title('Comparison of Experimental Data with DTS Simulation')
-plt.legend()
-plt.grid(True)
-plt.show()
-</code></pre>
+<p>To compare simulated data with experimental data, run the test.ipynb:</p>
 
 <h2>Contributing</h2>
 
