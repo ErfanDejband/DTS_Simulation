@@ -24,8 +24,8 @@ def simulate(start=0, stop=30, step_size=0.15, H_start=None, H_stop=None, num_po
     z = np.linspace(start, stop, num_points)
 
     # Calculate constants
-    Constance1 = 0.14693333333333336
-    Constance2 = 2.715
+    Constance1 = 0.14693333333333336 # adjust this if you simulator is not same as your experimental data
+    Constance2 = 2.715 # adjust this if you simulator is not same as your experimental data
     
     if spacial_res is not None:
         # Calculate new constants based on spatial resolution
@@ -53,6 +53,7 @@ def simulate(start=0, stop=30, step_size=0.15, H_start=None, H_stop=None, num_po
         actual_T[H_start_idx:H_stop_idx] = H_temperature
 
     # Calculate the Gaussian function for all values of z
+    # refer to https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2013WR014979?utm_sq=gqzx3u0l8q
     Halo_sigma = spacial_res / Constance2 
     sigma = step_size / Halo_sigma
     X, MU = np.meshgrid(z, z)
