@@ -20,7 +20,7 @@ def simulate(start=0, stop=30, step_size=0.15, H_start=None, H_stop=None, num_po
         DDTS (numpy.ndarray): Sum of DTS_T along the axis.
     """
     # Create z array
-    Tuner = 10
+    Tuner = Tuner = (num_points - 1) * step_size/(stop - start)   # 10
     z = np.linspace(start, stop, num_points)
 
     # Calculate constants
