@@ -21,7 +21,7 @@
 <pre><code>distance, actual_T, DDTS = simulate(H_start=10, H_stop=15, H_temperature=79, env_temp=21)
 </code></pre>
 
-<p>This will simulate DTS data with a heating event from 10 to 15 meters, with a heating temperature of 79°C and an environmental temperature of 21°C. It returns the distance array, actual temperature array, and DTS signal array.</p>
+<p>Easy simulate --> run the test.py file.</p>
 
 <p>To compare simulated data with experimental data, run the test.ipynb:</p>
 
