@@ -1,4 +1,5 @@
 import sys
+import numpy as np
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout, QHBoxLayout, QMessageBox, QTextEdit
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -14,33 +15,35 @@ class DTS_GUI(QWidget):
         self.setWindowTitle('DTS Simulation GUI')
         self.setGeometry(100, 100, 1000, 600)
 
-        # Input fields
-        self.lbl_H_start = QLabel('H Start:')
-        self.le_H_start = QLineEdit()
+        # Input fields for hot spots
+        self.lbl_start_points = QLabel('Start Points (comma-separated):')
+        self.le_start_points = QLineEdit()
 
-        self.lbl_H_stop = QLabel('H Stop:')
-        self.le_H_stop = QLineEdit()
+        self.lbl_stop_points = QLabel('Stop Points (comma-separated):')
+        self.le_stop_points = QLineEdit()
 
-        self.lbl_H_temperature = QLabel('H Temperature:')
-        self.le_H_temperature = QLineEdit()
+        self.lbl_hot_temps = QLabel('Hot Temperatures (comma-separated):')
+        self.le_hot_temps = QLineEdit()
 
-        self.lbl_env_temp = QLabel('Environment Temperature:')
+        # Input field for environmental temperature
+        self.lbl_env_temp = QLabel('Environmental Temperature:')
         self.le_env_temp = QLineEdit()
 
+        # Button to trigger simulation
         self.btn_simulate = QPushButton('Simulate')
         self.btn_simulate.clicked.connect(self.simulate_dts)
 
         # Input layout
         input_layout = QVBoxLayout()
-        input_layout.addWidget(self.lbl_H_start)
-        input_layout.addWidget(self.le_H_start)
-        input_layout.addWidget(self.lbl_H_stop)
-        input_layout.addWidget(self.le_H_stop)
-        input_layout.addWidget(self.lbl_H_temperature)
-        input_layout.addWidget(self.le_H_temperature)
-        input_layout.addWidget(self.lbl_env_temp)
-        input_layout.addWidget(self.le_env_temp)
-        input_layout.addWidget(self.btn_simulate)
+        input_layout.addWidget(self.lbl_start_points)
+        input_layout.addWidget(self.le_start_points)
+        input_layout.addWidget(self.lbl_stop_points)
+        input_layout.addWidget(self.le_stop_points)
+        input_layout.addWidget(self.lbl_hot_temps)
+        input_layout.addWidget(self.le_hot_temps)
+        input_layout.addWidget(self.lbl_env_temp) 
+        input_layout.addWidget(self.le_env_temp) 
+        input_layout.addWidget(self.btn_simulate)  
 
         # Message display area
         self.message_display = QTextEdit()
@@ -67,37 +70,44 @@ class DTS_GUI(QWidget):
         self.setLayout(main_layout)
 
     def simulate_dts(self):
-        # Get user inputs
+        # Get user input for start points, stop points, and hot temperatures
         try:
-            H_start = float(self.le_H_start.text())
-            H_stop = float(self.le_H_stop.text())
-            H_temperature = float(self.le_H_temperature.text())
-            env_temp = float(self.le_env_temp.text())
+            start_points = np.array([float(x.strip()) for x in self.le_start_points.text().split(',')])
+            stop_points = np.array([float(x.strip()) for x in self.le_stop_points.text().split(',')])
+            hot_temps = np.array([float(x.strip()) for x in self.le_hot_temps.text().split(',')])
+            env_temp = float(self.le_env_temp.text())  # Retrieve environmental temperature
         except ValueError:
-            QMessageBox.warning(self, 'Input Error', 'Please enter valid numeric values for all parameters.')
+            QMessageBox.warning(self, 'Input Error', 'Please enter valid numeric values for start points, stop points, and hot temperatures.')
             return
 
-        # Perform DTS simulation
-        distance, actual_T, DDTS = simulate(H_start=H_start, H_stop=H_stop, H_temperature=H_temperature, env_temp=env_temp)
+        # Validate input lengths
+        if len(start_points) != len(stop_points) or len(start_points) != len(hot_temps):
+            QMessageBox.warning(self, 'Input Error', 'The number of start points, stop points, and hot temperatures must be the same.')
+            return
 
-        # Update message display
-        self.message_display.setText('Simulation successful!')
+        # Simulate DTS data
+        distance, actual_T, DDTS = simulate(start=0, stop=30, H_starts=start_points, H_stops=stop_points, H_temperatures=hot_temps, env_temp=env_temp)
 
         # Clear previous plot
         self.figure.clear()
 
-        # Create a new plot
+        # Plot DTS simulation results
         ax = self.figure.add_subplot(111)
-        ax.plot(distance, actual_T, label='Actual Temperature')
-        ax.plot(distance, DDTS, label='DDTS')
+        ax.plot(distance, actual_T, label='Actual Temperature', color='orange')
+        ax.plot(distance, DDTS, label='DDT_Simulate', color='green')
+
+        # Finalize plot
         ax.set_xlabel('Distance')
         ax.set_ylabel('Temperature')
-        ax.set_title('Actual Temperature vs DDT_simulation')
+        ax.set_title('Actual Temperature vs DDT_simulation vs DTS')
         ax.legend()
         ax.grid(True)
-
-        # Refresh canvas
         self.canvas.draw()
+
+        # Display success message
+        self.message_display.clear()
+        self.message_display.append(f'Simulation for {len(start_points)} Hotspot successful!')
+
 
 
 if __name__ == '__main__':

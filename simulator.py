@@ -1,6 +1,6 @@
 import numpy as np
 
-def simulate(start=0, stop=30, step_size=0.15, H_start=None, H_stop=None, num_points=2000, spacial_res=1.5, env_temp=22, H_temperature=None):
+def simulate(start=0, stop=30, step_size=0.15, H_starts=None, H_stops=None, num_points=2000, spacial_res=1.5, env_temp=22, H_temperatures=None):
     """
     Simulate DTS data.
 
@@ -37,20 +37,24 @@ def simulate(start=0, stop=30, step_size=0.15, H_start=None, H_stop=None, num_po
         New_Constance2 = None
         New_Constance1 = None
 
+
     # Calculate actual temperature
     actual_T = np.full(z.shape, env_temp)
-    if H_start is not None and H_stop is not None:
-        if H_start < start or H_stop > stop:
-            raise ValueError("Heating temperature range is outside the specified simulation range.")
-        elif H_temperature is None:
-            raise ValueError("Heating temperature is not provided.")
-        else:
+    if H_starts is not None and H_stops is not None and H_temperatures is not None:
+        if len(H_starts) != len(H_stops) or len(H_starts) != len(H_temperatures):
+            raise ValueError("Invalid input: H_starts, H_stops, and H_temperatures must have the same length.")
+        
+        for i in range(len(H_starts)):
+            H_start, H_stop, H_temperature = H_starts[i], H_stops[i], H_temperatures[i]
+            if H_start < start or H_stop > stop:
+                raise ValueError(f"Heating {i}th temperature range is outside the specified simulation range.")
+
             # Convert H_start and H_stop to indices based on z
             H_start_idx = np.abs(z - H_start).argmin()
             H_stop_idx = np.abs(z - H_stop).argmin()
-        
-        # Update actual_T within the specified range
-        actual_T[H_start_idx:H_stop_idx] = H_temperature
+
+            # Update actual_T within the specified range
+            actual_T[H_start_idx:H_stop_idx] = H_temperature
 
     # Calculate the Gaussian function for all values of z
     # refer to https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2013WR014979?utm_sq=gqzx3u0l8q
