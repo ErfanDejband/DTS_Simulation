@@ -98,62 +98,62 @@ class DTS_GUI(QWidget):
 ########## set tab 2 ################################
 #####################################################
 
-    def initTab2(self):
-        self.setWindowTitle('DTS Simulation GUI')
-        self.setGeometry(100, 100, 1000, 600)
+def initTab2(self):
+    self.setWindowTitle('DTS Simulation GUI')
+    self.setGeometry(100, 100, 1000, 600)
 
-        # Input fields for hot spots
-        self.lbl_start_points = QLabel('www:')
-        self.le_start_points = QLineEdit()
+    # Input fields for hot spots
+    self.lbl_start_points_tab2 = QLabel('Hotspot Start Points (comma-separated):')
+    self.le_start_points_tab2 = QLineEdit()
 
-        self.lbl_stop_points = QLabel('wwwe Points (comma-separated):')
-        self.le_stop_points = QLineEdit()
+    self.lbl_stop_points_tab2 = QLabel('Hotspot Stop Points (comma-separated):')
+    self.le_stop_points_tab2 = QLineEdit()
 
-        self.lbl_hot_temps = QLabel('Hot erwer (comma-separated):')
-        self.le_hot_temps = QLineEdit()
+    self.lbl_hot_temps_tab2 = QLabel('Hotspot Temperatures (comma-separated):')
+    self.le_hot_temps_tab2 = QLineEdit()
 
-        # Input field for environmental temperature
-        self.lbl_env_temp = QLabel('wer Temperature:')
-        self.le_env_temp = QLineEdit()
+    # Input field for environmental temperature
+    self.lbl_env_temp_tab2 = QLabel('Environmental Temperature:')
+    self.le_env_temp_tab2 = QLineEdit()
 
-        # Button to trigger simulation
-        self.btn_simulate = QPushButton('Simulate2')
-        self.btn_simulate.clicked.connect(self.simulate_dts)
+    # Button to trigger simulation
+    self.btn_simulate_tab2 = QPushButton('Simulate DTS')
+    self.btn_simulate_tab2.clicked.connect(self.simulate_dts_tab2)
 
-        # Input layout
-        input_layout = QVBoxLayout()
-        input_layout.addWidget(self.lbl_start_points)
-        input_layout.addWidget(self.le_start_points)
-        input_layout.addWidget(self.lbl_stop_points)
-        input_layout.addWidget(self.le_stop_points)
-        input_layout.addWidget(self.lbl_hot_temps)
-        input_layout.addWidget(self.le_hot_temps)
-        input_layout.addWidget(self.lbl_env_temp) 
-        input_layout.addWidget(self.le_env_temp) 
-        input_layout.addWidget(self.btn_simulate)  
+    # Input layout
+    input_layout_tab2 = QVBoxLayout()
+    input_layout_tab2.addWidget(self.lbl_start_points_tab2)
+    input_layout_tab2.addWidget(self.le_start_points_tab2)
+    input_layout_tab2.addWidget(self.lbl_stop_points_tab2)
+    input_layout_tab2.addWidget(self.le_stop_points_tab2)
+    input_layout_tab2.addWidget(self.lbl_hot_temps_tab2)
+    input_layout_tab2.addWidget(self.le_hot_temps_tab2)
+    input_layout_tab2.addWidget(self.lbl_env_temp_tab2) 
+    input_layout_tab2.addWidget(self.le_env_temp_tab2) 
+    input_layout_tab2.addWidget(self.btn_simulate_tab2)  
 
-        # Message display area
-        self.message_display = QTextEdit()
-        self.message_display.setReadOnly(True)
+    # Message display area
+    self.message_display_tab2 = QTextEdit()
+    self.message_display_tab2.setReadOnly(True)
 
-        # Main left panel layout
-        left_panel_layout = QVBoxLayout()
-        left_panel_layout.addLayout(input_layout)
-        left_panel_layout.addWidget(self.message_display)
+    # Main left panel layout
+    left_panel_layout_tab2 = QVBoxLayout()
+    left_panel_layout_tab2.addLayout(input_layout_tab2)
+    left_panel_layout_tab2.addWidget(self.message_display_tab2)
 
-        # Plot layout
-        self.figure = Figure()
-        self.canvas = FigureCanvas(self.figure)
-        self.toolbar = NavigationToolbar(self.canvas, self)
-        plot_layout = QVBoxLayout()
-        plot_layout.addWidget(self.toolbar)
-        plot_layout.addWidget(self.canvas)
+    # Plot layout
+    self.figure_tab2 = Figure()
+    self.canvas_tab2 = FigureCanvas(self.figure_tab2)
+    self.toolbar_tab2 = NavigationToolbar(self.canvas_tab2, self)
+    plot_layout_tab2 = QVBoxLayout()
+    plot_layout_tab2.addWidget(self.toolbar_tab2)
+    plot_layout_tab2.addWidget(self.canvas_tab2)
 
-        # Main layout
-        main_layout = QHBoxLayout()
-        main_layout.addLayout(left_panel_layout)
-        main_layout.addLayout(plot_layout)
-        self.tab2.setLayout(main_layout)
+    # Main layout
+    main_layout = QHBoxLayout()
+    main_layout.addLayout(left_panel_layout_tab2)
+    main_layout.addLayout(plot_layout_tab2)
+    self.tab2.setLayout(main_layout)
 
 #####################################################
 ########## set tab 3 ################################
@@ -259,7 +259,7 @@ class DTS_GUI(QWidget):
         self.message_display_tab1.clear()
         self.message_display_tab1.append(f'Simulation for {len(start_points)} Hotspot successful!')
 
-    def simulate_dts(self):
+    def simulate_dts_tab2(self):
         # Get user input for start points, stop points, and hot temperatures
         try:
             start_points = np.array([float(x.strip()) for x in self.le_start_points.text().split(',')])
