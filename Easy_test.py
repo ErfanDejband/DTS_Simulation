@@ -1,10 +1,10 @@
 import sys
 import numpy as np
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout, QHBoxLayout, QMessageBox, QTextEdit,QTabWidget
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout, QHBoxLayout, QMessageBox, QTextEdit,QTabWidget,QFileDialog
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5 import NavigationToolbar2QT as NavigationToolbar
-from simulator import simulate
+from simulator import simulate, plot_experimental
 
 class DTS_GUI(QWidget):
     def __init__(self):
@@ -98,62 +98,95 @@ class DTS_GUI(QWidget):
 ########## set tab 2 ################################
 #####################################################
 
-def initTab2(self):
-    self.setWindowTitle('DTS Simulation GUI')
-    self.setGeometry(100, 100, 1000, 600)
+    def initTab2(self):
+        self.setWindowTitle('DTS Simulation GUI')
+        self.setGeometry(100, 100, 1000, 600)
 
-    # Input fields for hot spots
-    self.lbl_start_points_tab2 = QLabel('Hotspot Start Points (comma-separated):')
-    self.le_start_points_tab2 = QLineEdit()
+        # Input fields for hot spots
+        self.lbl_start_points_tab2 = QLabel('Hotspot Start Points (comma-separated):')
+        self.le_start_points_tab2 = QLineEdit()
 
-    self.lbl_stop_points_tab2 = QLabel('Hotspot Stop Points (comma-separated):')
-    self.le_stop_points_tab2 = QLineEdit()
+        self.lbl_stop_points_tab2 = QLabel('Hotspot Stop Points (comma-separated):')
+        self.le_stop_points_tab2 = QLineEdit()
 
-    self.lbl_hot_temps_tab2 = QLabel('Hotspot Temperatures (comma-separated):')
-    self.le_hot_temps_tab2 = QLineEdit()
+        self.lbl_hot_temps_tab2 = QLabel('Hotspot Temperatures (comma-separated):')
+        self.le_hot_temps_tab2 = QLineEdit()
 
-    # Input field for environmental temperature
-    self.lbl_env_temp_tab2 = QLabel('Environmental Temperature:')
-    self.le_env_temp_tab2 = QLineEdit()
+        # Input field for environmental temperature
+        self.lbl_env_temp_tab2 = QLabel('Environmental Temperature:')
+        self.le_env_temp_tab2 = QLineEdit()
 
-    # Button to trigger simulation
-    self.btn_simulate_tab2 = QPushButton('Simulate DTS')
-    self.btn_simulate_tab2.clicked.connect(self.simulate_dts_tab2)
+        # Input fields for 30m section
+        self.lbl_start_30m_section = QLabel('Start of 30m Section:')
+        self.le_start_30m_section = QLineEdit()
 
-    # Input layout
-    input_layout_tab2 = QVBoxLayout()
-    input_layout_tab2.addWidget(self.lbl_start_points_tab2)
-    input_layout_tab2.addWidget(self.le_start_points_tab2)
-    input_layout_tab2.addWidget(self.lbl_stop_points_tab2)
-    input_layout_tab2.addWidget(self.le_stop_points_tab2)
-    input_layout_tab2.addWidget(self.lbl_hot_temps_tab2)
-    input_layout_tab2.addWidget(self.le_hot_temps_tab2)
-    input_layout_tab2.addWidget(self.lbl_env_temp_tab2) 
-    input_layout_tab2.addWidget(self.le_env_temp_tab2) 
-    input_layout_tab2.addWidget(self.btn_simulate_tab2)  
+        self.lbl_stop_30m_section = QLabel('Stop of 30m Section:')
+        self.le_stop_30m_section = QLineEdit()
 
-    # Message display area
-    self.message_display_tab2 = QTextEdit()
-    self.message_display_tab2.setReadOnly(True)
+        # Buttons
+        self.btn_simulate_tab2 = QPushButton('Simulate DTS')
+        self.btn_simulate_tab2.clicked.connect(self.simulate_dts_tab2)
 
-    # Main left panel layout
-    left_panel_layout_tab2 = QVBoxLayout()
-    left_panel_layout_tab2.addLayout(input_layout_tab2)
-    left_panel_layout_tab2.addWidget(self.message_display_tab2)
+        self.btn_plot_experiment = QPushButton('Plot Experiment')
+        self.btn_plot_experiment.clicked.connect(self.plot_experiment_data)
 
-    # Plot layout
-    self.figure_tab2 = Figure()
-    self.canvas_tab2 = FigureCanvas(self.figure_tab2)
-    self.toolbar_tab2 = NavigationToolbar(self.canvas_tab2, self)
-    plot_layout_tab2 = QVBoxLayout()
-    plot_layout_tab2.addWidget(self.toolbar_tab2)
-    plot_layout_tab2.addWidget(self.canvas_tab2)
+        #CSV file
+        self.lbl_csv_file = QLabel('CSV File:')
+        self.btn_browse_csv = QPushButton('Browse')
+        self.btn_browse_csv.clicked.connect(self.browse_csv_file)
+        self.le_csv_file = QLineEdit()
 
-    # Main layout
-    main_layout = QHBoxLayout()
-    main_layout.addLayout(left_panel_layout_tab2)
-    main_layout.addLayout(plot_layout_tab2)
-    self.tab2.setLayout(main_layout)
+
+        # Input layout
+        input_layout_tab2 = QVBoxLayout()
+        input_layout_tab2.addWidget(self.lbl_start_points_tab2)
+        input_layout_tab2.addWidget(self.le_start_points_tab2)
+
+        input_layout_tab2.addWidget(self.lbl_stop_points_tab2)
+        input_layout_tab2.addWidget(self.le_stop_points_tab2)
+
+        input_layout_tab2.addWidget(self.lbl_hot_temps_tab2)
+        input_layout_tab2.addWidget(self.le_hot_temps_tab2)
+
+        input_layout_tab2.addWidget(self.lbl_start_30m_section)
+        input_layout_tab2.addWidget(self.le_start_30m_section)
+
+        input_layout_tab2.addWidget(self.lbl_stop_30m_section)
+        input_layout_tab2.addWidget(self.le_stop_30m_section)
+
+        input_layout_tab2.addWidget(self.btn_simulate_tab2)
+        input_layout_tab2.addWidget(self.btn_plot_experiment)
+
+        input_layout_tab2.addWidget(self.lbl_env_temp_tab2)
+        input_layout_tab2.addWidget(self.le_env_temp_tab2)
+
+        input_layout_tab2.addWidget(self.lbl_csv_file)  # Add CSV file widgets
+        input_layout_tab2.addWidget(self.le_csv_file)
+        input_layout_tab2.addWidget(self.btn_browse_csv)
+
+
+        # Message display area
+        self.message_display_tab2 = QTextEdit()
+        self.message_display_tab2.setReadOnly(True)
+
+        # Main left panel layout
+        left_panel_layout_tab2 = QVBoxLayout()
+        left_panel_layout_tab2.addLayout(input_layout_tab2)
+        left_panel_layout_tab2.addWidget(self.message_display_tab2)
+
+        # Plot layout
+        self.figure_tab2 = Figure()
+        self.canvas_tab2 = FigureCanvas(self.figure_tab2)
+        self.toolbar_tab2 = NavigationToolbar(self.canvas_tab2, self)
+        plot_layout_tab2 = QVBoxLayout()
+        plot_layout_tab2.addWidget(self.toolbar_tab2)
+        plot_layout_tab2.addWidget(self.canvas_tab2)
+
+        # Main layout
+        main_layout = QHBoxLayout()
+        main_layout.addLayout(left_panel_layout_tab2)
+        main_layout.addLayout(plot_layout_tab2)
+        self.tab2.setLayout(main_layout)
 
 #####################################################
 ########## set tab 3 ################################
@@ -262,10 +295,10 @@ def initTab2(self):
     def simulate_dts_tab2(self):
         # Get user input for start points, stop points, and hot temperatures
         try:
-            start_points = np.array([float(x.strip()) for x in self.le_start_points.text().split(',')])
-            stop_points = np.array([float(x.strip()) for x in self.le_stop_points.text().split(',')])
-            hot_temps = np.array([float(x.strip()) for x in self.le_hot_temps.text().split(',')])
-            env_temp = float(self.le_env_temp.text())  # Retrieve environmental temperature
+            start_points = np.array([float(x.strip()) for x in self.le_start_points_tab2.text().split(',')])
+            stop_points = np.array([float(x.strip()) for x in self.le_stop_points_tab2.text().split(',')])
+            hot_temps = np.array([float(x.strip()) for x in self.le_hot_temps_tab2.text().split(',')])
+            env_temp = float(self.le_env_temp_tab2.text())  # Retrieve environmental temperature
         except ValueError:
             QMessageBox.warning(self, 'Input Error', 'Please enter valid numeric values for start points, stop points, and hot temperatures.')
             return
@@ -276,15 +309,15 @@ def initTab2(self):
             return
 
         # Simulate DTS data
-        distance, actual_T, DDTS = simulate(start=0, stop=30, H_starts=start_points, H_stops=stop_points, H_temperatures=hot_temps, env_temp=21)
+        distance_tab2, actual_T_tab2, DDTS_tab2 = simulate(start=0, stop=30, H_starts=start_points, H_stops=stop_points, H_temperatures=hot_temps, env_temp=env_temp)
 
         # Clear previous plot
-        self.figure.clear()
+        self.figure_tab2.clear()
 
         # Plot DTS simulation results
-        ax = self.figure.add_subplot(111)
-        ax.plot(distance, actual_T, label='Actual Temperature', color='orange')
-        ax.plot(distance, DDTS, label='DDT_Simulate', color='green')
+        ax = self.figure_tab2.add_subplot(111)
+        ax.plot(distance_tab2, actual_T_tab2, label='Actual Temperature', color='orange')
+        ax.plot(distance_tab2, DDTS_tab2, label='DDT_Simulate', color='green')
 
         # Finalize plot
         ax.set_xlabel('Distance')
@@ -292,11 +325,46 @@ def initTab2(self):
         ax.set_title('Actual Temperature vs DDT_simulation vs DTS')
         ax.legend()
         ax.grid(True)
-        self.canvas.draw()
+        self.canvas_tab2.draw()
 
         # Display success message
-        self.message_display.clear()
-        self.message_display.append(f'Simulation for {len(start_points)} Hotspot successful!')
+        self.message_display_tab2.clear()
+        self.message_display_tab2.append(f'Simulation for {len(start_points)} Hotspot successful!')
+    
+    def browse_csv_file(self):
+        options = QFileDialog.Options()
+        file_name, _ = QFileDialog.getOpenFileName(self, "Select CSV File", "", "CSV Files (*.csv)", options=options)
+        if file_name:
+            self.le_csv_file.setText(file_name)
+
+    def plot_experiment_data(self):
+                # Get user input for CSV file and 30m section parameters
+        csv_file = self.le_csv_file.text()
+        start_30m_section = float(self.le_start_30m_section.text())
+        stop_30m_section = float(self.le_stop_30m_section.text())
+
+        # Call compare_sim_with_experimental with user input
+        num_data_points,distance_30m_section,temperature_30m_section = plot_experimental(csv_file, start_30m_section, stop_30m_section)
+
+        # Plot experiment results
+        # Clear previous plot
+        self.figure_tab2.clear()
+        ax_tab2 = self.figure_tab2.add_subplot(111)
+        ax_tab2.plot(distance_30m_section, temperature_30m_section, label='Actual Temperature', color='orange')
+        # ax_tab1.plot(distance_tab1, DDTS_tab1, label='DDT_Simulate', color='green')
+
+        # Finalize plot
+        ax_tab2.set_xlabel('Distance')
+        ax_tab2.set_ylabel('Temperature')
+        ax_tab2.set_title('Experimental data')
+        ax_tab2.legend()
+        ax_tab2.grid(True)
+        self.canvas_tab2.draw()
+
+        # Display success message
+        self.message_display_tab2.clear()
+        self.message_display_tab2.append(f'from {start_30m_section} to {stop_30m_section} section of experimental data ploted')
+
 
 
 if __name__ == '__main__':

@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 def simulate(start=0, stop=30, step_size=0.15, H_starts=None, H_stops=None, num_points=2000, spacial_res=1.5, env_temp=22, H_temperatures=None):
     """
@@ -68,3 +69,27 @@ def simulate(start=0, stop=30, step_size=0.15, H_starts=None, H_stops=None, num_
 
 def gaussian(x, mu, sig):
     return np.exp(-np.power(x - mu, 2.) / (2 * np.power(sig, 2.)))
+
+def plot_experimental(csv_file, start_30m_section, stop_30m_section):
+    # Read experimental data from CSV
+    try:
+        df = pd.read_csv(csv_file, header=None)
+    except FileNotFoundError:
+        print("Error: CSV file not found.")
+        return
+
+    # Extract data columns
+    distance_exp = df.iloc[:, 1]
+    temperature_exp = df.iloc[:, 2]
+
+    # Find indices for the 30m section
+    start_idx = np.abs(distance_exp - start_30m_section).idxmin()
+    stop_idx = np.abs(distance_exp - stop_30m_section).idxmin()
+
+    # Extract data for the 30m section
+    distance_30m_section = np.array(distance_exp[start_idx:stop_idx+1])-start_30m_section
+    temperature_30m_section = np.array(temperature_exp[start_idx:stop_idx+1])
+
+    # Print number of data points in the 30m section
+    num_data_points = len(distance_30m_section)
+    return num_data_points,distance_30m_section,temperature_30m_section
