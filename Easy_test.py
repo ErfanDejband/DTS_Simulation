@@ -166,7 +166,7 @@ class DTS_GUI(QWidget):
         self.btn_browse_csv = QPushButton('Browse')
         self.btn_browse_csv.clicked.connect(self.browse_csv_file)
         self.le_csv_file = QLineEdit()
-        self.le_csv_file.setText('experiment.CSV')
+        self.le_csv_file.setText('EXperimental_data_temp700.csv')
 
 
         # Input fields for 30m section
@@ -470,7 +470,7 @@ class DTS_GUI(QWidget):
             stop_30m_section = self.le_stop_30m_section.text().strip()
 
             # Check if the file exists in the current directory
-            csv_file = default_csv_file if os.path.exists(default_csv_file) else self.le_csv_file.text()
+            csv_file = default_csv_file if not csv_file else csv_file
             start_30m_section = 50 if not start_30m_section else  float(self.le_start_30m_section.text())
             stop_30m_section = 80 if not stop_30m_section else float(self.le_stop_30m_section.text())
 
