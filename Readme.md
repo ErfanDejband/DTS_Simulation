@@ -63,6 +63,12 @@ Once the data is generated, you can plot specific samples by entering the sample
 ### File Format Requirements
 - The CSV file should match the format of the provided experimental data (`EXperimental_data_temp700.csv`). Ensure your custom data is formatted correctly before running the simulation.
 
+
+## Example results:
+<img src="images/Img1.png" alt="Img1" width="200" /> 
+<img src="images/Img2.png" alt="Img2" width="200" /> 
+<img src="images/Img3.png" alt="Img3" width="200" />
+
 ## Future Work
 - Improved user interface with more flexible simulation settings.
 - Support for larger windows beyond the 30-meter limit.
@@ -71,3 +77,6 @@ Once the data is generated, you can plot specific samples by entering the sample
 ---
 
 💻 *Feel free to contribute or suggest improvements!*
+
+
+
