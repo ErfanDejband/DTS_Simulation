@@ -65,7 +65,8 @@ Once the data is generated, you can plot specific samples by entering the sample
 
 
 ## Example results:
-<img src="images/Img1.png" alt="Img1" width="200" /> 
+
+<img src="[images/Img1.png](https://github.com/ErfanDejband/DTS_Simulation/blob/main/Images/Img1.png)" alt="Img1" width="200" /> 
 <img src="images/Img2.png" alt="Img2" width="200" /> 
 <img src="images/Img3.png" alt="Img3" width="200" />
 
