@@ -1,34 +1,73 @@
-<h1>DTS Simulation Library</h1>
 
-<p>The DTS Simulation Library is a Python package designed to simulate Distributed Temperature Sensing (DTS) data. It provides functions to generate simulated DTS data based on specified parameters such as heating temperature, environmental temperature, and spatial resolution. Additionally, it allows users to compare simulated data with experimental data.</p>
+# DTS Simulation and Experiment Comparison Tool
 
-<h2>Installation</h2>
+This project provides a simple interface for comparing Distributed Temperature Sensing (DTS) experimental data with simulations. It allows users to generate and plot DTS data, configure simulation parameters, and customize settings for hot spots and environmental factors.
 
-<p>You can install the DTS Simulation Library using pip or download the files:</p>
+## Features
 
-<pre><code>pip install DTS-simulation
-</code></pre>
+- Compare your experimental data with DTS simulation results.
+- Use **default values** or customize simulation parameters.
+- **Multiple hot spots** configuration using a 30-meter window.
+- Plot simulation results and **compare with experimental data**.
+- Browse and select your **CSV file** for custom experiments.
+- Check an **estimation** of the generated data and simulation time before proceeding.
 
-<h2>Usage</h2>
+## Installation
 
-<p>To simulate DTS data, import the <code>simulate</code> function from the library:</p>
+To set up the project, follow these steps:
 
-<pre><code>from DTS_simulation.simulator import simulate
-</code></pre>
+1. Install dependencies:
+   If you have a `requirements.txt` file, run:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-<p>You can then use the <code>simulate</code> function to generate simulated DTS data. Here's an example:</p>
 
-<pre><code>distance, actual_T, DDTS = simulate(H_start=10, H_stop=15, H_temperature=79, env_temp=21)
-</code></pre>
+## Usage
 
-<p style="color : red"> <strong> * For easy simulation run the Easy_test.py </strong></p>
+1. Open the project folder in **VSCode** or any other IDE for the best experience.
+   
+2. Run the main script to start the interface:
+   ```bash
+   python Easy_test.py
+   ```
 
-<p>To compare simulated data with experimental data, run the test.ipynb:</p>
+3. The interface will open, allowing you to:
+   - **Select your CSV file**: Browse or use the default experimental data (`EXperimental_data_temp700.csv`).
+   - **Set simulation parameters**: Define hot spots, start/stop points, environmental temperature, and more.
+   - **Plot** your data: Plot the simulation results and compare them with your experiment.
 
-<h2>Contributing</h2>
+4. After adjusting settings, you can:
+   - **Generate data**: Use the "Generate" button to create simulation samples.
+   - **Estimate the number of samples**: Use the "Check Estimation" button to preview the amount of data and approximate generation time.
 
-<p>If you'd like to contribute to the DTS Simulation Library, feel free to submit pull requests or open issues on the GitHub repository.</p>
+### Parameters
 
-<h2>License</h2>
+- **Number of Events**: Define the number of hot spots (e.g., 3).
+- **Hotspot Temperatures**: Input the temperature values for each hot spot (comma-separated).
+- **Environmental Temperature**: Set the default environmental temperature (e.g., 22°C).
+- **Number of Shifts**: Define the number of shifts (e.g., 4) for sweeping along the fiber (between 5-25 meters).
+- **Random Locations**: Control how often random hot spot locations are generated.
 
-<p>This project is licensed under -----.</p>
+## Plotting Example
+
+Once the data is generated, you can plot specific samples by entering the sample number and clicking **Plot**. You can visualize the actual temperature profile and the DTS simulation.
+
+## Customization
+
+### Changing Default Parameters
+- You can modify the default parameters by editing the **data_generator.py** or **simulator.py** files:
+   - **Constance1 and Constance2** for fine-tuning the simulation behavior.
+   - **Number of hot spots** and their positions can be randomized or controlled by user inputs.
+
+### File Format Requirements
+- The CSV file should match the format of the provided experimental data (`EXperimental_data_temp700.csv`). Ensure your custom data is formatted correctly before running the simulation.
+
+## Future Work
+- Improved user interface with more flexible simulation settings.
+- Support for larger windows beyond the 30-meter limit.
+- Automated validation of CSV file formats.
+
+---
+
+💻 *Feel free to contribute or suggest improvements!*
