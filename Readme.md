@@ -65,9 +65,17 @@ Once the data is generated, you can plot specific samples by entering the sample
 
 
 ## Example results:
+1- Two hot in real world experiment (`EXperimental_data_temp700.csv`) occured in range of 50m-80m. In this 30m window first hot spot start,stop and temperature is 11.7, 13.2 (11.7+1.5m), and 47C respectivelly. second hot spot start,stop and temperature is 15.05, 16.55, and 80C respectively.
 
-<img src="https://github.com/ErfanDejband/DTS_Simulation/blob/main/Images/Img1.png" alt="Img1" width="250" /> <img src="https://github.com/ErfanDejband/DTS_Simulation/blob/main/Images/Img2.png" alt="Img2" width="250" /> 
-<img src="https://github.com/ErfanDejband/DTS_Simulation/blob/main/Images/Img3.png" alt="Img3" width="250" />
+<img src="https://github.com/ErfanDejband/DTS_Simulation/blob/main/Images/Img1.png" alt="Img1" width="500" />
+
+2- Two hot in real world experiment (`30C_1.1M_50C.csv`) occured in range of 25m-55m. In this 30m window first hot spot start,stop and temperature is 12.9, 14.4 (12.9+1.5m), and 30C correspondinglly. second hot spot start,stop and temperature is 15.5, 17, and 50C correspondinglly.
+
+ <img src="https://github.com/ErfanDejband/DTS_Simulation/blob/main/Images/Img2.png" alt="Img2" width="500" />
+
+3-Two hot in real world experiment (`30C_0.1M_50C.csv`) occured in range of 25m-55m. In this 30m window first hot spot start,stop and temperature is 12.9, 14.4 (12.9+1.5m), and 30C correspondinglly. second hot spot start,stop and temperature is 14.5 (14.4+0.1m), 16, and 50C correspondinglly.
+
+<img src="https://github.com/ErfanDejband/DTS_Simulation/blob/main/Images/Img3.png" alt="Img3" width="500" />
 
 ## Future Work
 - Improved user interface with more flexible simulation settings.
